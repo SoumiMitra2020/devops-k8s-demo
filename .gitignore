@@ -6,3 +6,4 @@ node_modules/
 *.img
 *.iso
 .DS_Store
+minikube-linux-amd64
