@@ -1,78 +1,48 @@
-# DevOps CI/CD Pipeline with Jenkins, Docker, and Kubernetes 🚀
+# DevOps CI/CD Pipeline with Jenkins, Docker, and Kubernetes
 
-![CI/CD](https://img.shields.io/badge/CI/CD-Jenkins-blue)
-![Docker](https://img.shields.io/badge/Container-Docker-blue)
-![Kubernetes](https://img.shields.io/badge/Orchestration-Kubernetes-blue)
-![Minikube](https://img.shields.io/badge/Kubernetes-Minukube-orange)
-![GitHub](https://img.shields.io/badge/Source-GitHub-black)
+## Overview
 
----
+This project demonstrates a complete **DevOps CI/CD pipeline** that automatically builds, pushes, and deploys a containerized application to Kubernetes.
 
-## DevOps Architecture
+The pipeline integrates:
 
-```mermaid
-flowchart LR
-    A[Developer] --> B[GitHub Repository]
-    B --> C[Jenkins Pipeline]
+* Git-based source control
+* Automated builds
+* Containerization
+* Continuous deployment to Kubernetes
 
-    C --> D[Build Docker Image]
-    D --> E[Push Image to DockerHub]
-
-    E --> F[Deploy to Kubernetes]
-    F --> G[Minikube Cluster]
-
-    G --> H[Application Service]
-    H --> I[Browser Access]
-```
-
----
-
-## CI/CD Pipeline Flow
-
-1. Developer pushes code to **GitHub**
-2. **Jenkins pipeline** is triggered
-3. Jenkins builds a **Docker image**
-4. Image is pushed to **DockerHub**
-5. Jenkins deploys the application to **Kubernetes**
-6. Application becomes accessible through **Kubernetes service**
+The goal of this project is to simulate a **real-world DevOps workflow** used in modern cloud-native environments.
 
 ---
 
 ## Technologies Used
 
-* GitHub – Source Code Management
-* Jenkins – CI/CD Automation
+* GitHub – Source code repository
+* Jenkins – CI/CD pipeline automation
 * Docker – Containerization
-* DockerHub – Image Registry
-* Kubernetes – Container Orchestration
-* Minikube – Local Kubernetes Cluster
+* Docker Hub – Image registry
+* Kubernetes – Container orchestration
+* Minikube – Local Kubernetes environment
 
 ---
 
-## Application Access
-
-After deployment, access the application using:
+## Architecture
 
 ```
-kubectl get svc
-```
-
-Example:
-
-```
-demo-service   NodePort   80:30007/TCP
-```
-
-Get the Minikube IP:
-
-```
-minikube ip
-```
-
-Open in browser:
-
-```
-http://<minikube-ip>:30007
+Developer
+   │
+   ▼
+GitHub Repository
+   │
+   ▼
+Jenkins Pipeline
+   │
+   ├── Build Docker Image
+   ├── Push Image to DockerHub
+   └── Deploy to Kubernetes
+            │
+            ▼
+      Kubernetes Cluster (Minikube)
 ```
 
 ---
@@ -82,28 +52,142 @@ http://<minikube-ip>:30007
 ```
 devops-k8s-demo
 │
-├── app/                # Node.js demo application
-├── k8s/                # Kubernetes manifests
+├── app/                  # Node.js demo application
+│
+├── k8s/                  # Kubernetes manifests
 │   ├── deployment.yaml
 │   └── service.yaml
 │
-├── Dockerfile          # Docker image configuration
-├── Jenkinsfile         # CI/CD pipeline
-└── README.md           # Project documentation
+├── Dockerfile            # Docker image build file
+│
+├── Jenkinsfile           # Jenkins CI/CD pipeline
+│
+└── README.md             # Project documentation
 ```
+
+---
+
+## CI/CD Pipeline Workflow
+
+The Jenkins pipeline performs the following stages:
+
+1. **Clone Repository**
+
+   * Jenkins pulls the latest code from GitHub.
+
+2. **Build Docker Image**
+
+   * The application is packaged into a Docker container.
+
+3. **Push Image to DockerHub**
+
+   * The built image is uploaded to DockerHub.
+
+4. **Deploy to Kubernetes**
+
+   * Kubernetes manifests are applied to deploy the application.
+
+---
+
+## Jenkins Pipeline
+
+The pipeline is defined in the `Jenkinsfile`.
+
+Example stages:
+
+```
+Clone Repository
+Build Docker Image
+Docker Login
+Push Docker Image
+Deploy to Kubernetes
+```
+
+---
+
+## Running the Application
+
+After deployment, the application can be accessed via Kubernetes service.
+
+### Get service information
+
+```
+kubectl get svc
+```
+
+Example output:
+
+```
+demo-service   NodePort   80:30007/TCP
+```
+
+### Get Minikube IP
+
+```
+minikube ip
+```
+
+Example:
+
+```
+192.168.49.2
+```
+
+### Open the application
+
+```
+http://192.168.49.2:30007
+```
+
+---
+
+## Verify Deployment
+
+Check running pods:
+
+```
+kubectl get pods
+```
+
+Check services:
+
+```
+kubectl get svc
+```
+
+Check deployments:
+
+```
+kubectl get deployments
+```
+
+---
+
+## Key DevOps Concepts Demonstrated
+
+* CI/CD pipeline automation
+* Infrastructure as Code (Kubernetes manifests)
+* Containerization with Docker
+* Image registry management
+* Kubernetes deployment
+* DevOps workflow integration
 
 ---
 
 ## Future Improvements
 
+Possible enhancements:
+
 * Add GitHub Webhooks for automatic pipeline triggers
-* Implement Helm charts for deployment
-* Add monitoring with Prometheus & Grafana
-* Deploy to cloud Kubernetes clusters (EKS / GKE / AKS)
+* Use Helm charts for Kubernetes deployment
+* Add monitoring with Prometheus and Grafana
+* Implement container security scanning
+* Deploy to a cloud Kubernetes cluster (AWS EKS / GKE / AKS)
 
 ---
 
 ## Author
 
-Soumimitra
-DevOps CI/CD Pipeline Project
+Soumi Mitra
+
+DevOps Engineer Project – CI/CD Pipeline with Jenkins, Docker, and Kubernetes.
