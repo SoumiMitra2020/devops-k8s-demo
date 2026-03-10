@@ -1,30 +1,46 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-
-    stage('Clone') {
-      steps {
-        git 'https://github.com/SoumiMitra2020/DevOps-Project-2026.git'
-      }
+    environment {
+        DOCKER_IMAGE = "soumimitra2020/devops-demo"
     }
 
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t USERNAME/devops-demo .'
-      }
-    }
+    stages {
 
-    stage('Push Image') {
-      steps {
-        sh 'docker push USERNAME/devops-demo'
-      }
-    }
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/SoumiMitra2020/devops-k8s-demo.git'
+            }
+        }
 
-    stage('Deploy to Kubernetes') {
-      steps {
-        sh 'kubectl apply -f k8s/'
-      }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE:latest .'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                sh 'docker push $DOCKER_IMAGE:latest'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f k8s/'
+            }
+        }
     }
-  }
 }
