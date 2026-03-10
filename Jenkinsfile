@@ -40,8 +40,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                    export KUBECONFIG=$HOME/.kube/config
-                    kubectl apply -f k8s/
+                    minikube kubectl -- apply -f k8s/
                 '''
             }
         }
