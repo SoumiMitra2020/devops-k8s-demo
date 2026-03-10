@@ -40,7 +40,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                    minikube kubectl -- apply -f k8s/
+                    ssh soumimitra@host.docker.internal \
+                        "kubectl apply -f ~/DevOps-Project-2026/devops-k8s-demo/k8s/"
                 '''
             }
         }
